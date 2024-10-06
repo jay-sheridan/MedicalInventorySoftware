@@ -1,0 +1,1 @@
+INSERT INTO medicines(name,qty,mfg_lic_no,batch_no,exp_date,mfg_date,price) VALUES ('Aciloc Rd' , 50 , 'ABC0221' , 'batch01', '2024-10-05', '2025-10-05',100);

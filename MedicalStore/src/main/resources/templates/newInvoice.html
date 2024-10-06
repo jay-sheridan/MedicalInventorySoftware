@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table th:if="${medicineList != null AND !medicineList.empty}">
+		<tr>
+			<th>Medicine Name</th>
+			<th>Qty</th>
+			<th>Batch No</th>
+			<th>MFG Date</th>
+			<th>EXP Date</th>
+			<th>Price</th>
+		</tr>
+		<tr th:each="aMedicine:${medicineList}">
+			<td th:text="${aMedicine.name}">Medicine Name</td>
+			<td th:text="${aMedicine.qty}">Qty</td>
+			<td th:text="${aMedicine.batchNo}">Batch No</td>
+			<td th:text="${aMedicine.mfgDate}">MFG Date</td>
+			<td th:text="${aMedicine.expDate}">EXP Date</td>
+			<td th:text="${aMedicine.price}">Price</td>
+		</tr>
+	</table>
+	<form method="post" action="#" th:action="@{newInvoice/addMedicine}" th:object="${medicine}">
+		<input type="text" th:field="*{name}" placeholder="Medicine name">
+		<input type="number" th:field="*{qty}" placeholder="Enter quantity">
+		<input type="text" th:field="*{mfgLicNo}" placeholder="Enter manufecturer licence number">
+		<input type="text" th:field="*{batchNo}" placeholder="Batch number">
+		<input type="date" th:field="*{mfgDate}" placeholder="Manufecturer date">
+		<input type="date" th:field="*{expDate}" placeholder="Expire date">
+		<input type="number" th:field="*{price}" placeholder="Enter price">
+		<button>Submit</button>
+	</form>
+	<br><br>
+	<hr>
+	<form method="post" action="#" th:action="@{/generateInvoice}" th:object="${customer}">
+		<input type="text" th:field="*{name}" placeholder="Customer name">
+		<input type="number" th:field="*{phoneNumber}" placeholder="Phone number">
+		<input type="text" th:field="*{address}" placeholder="type address here">
+		<button>Generate Invoice</button>
+	</form>
+	
+</body>
+</html>
