@@ -22,8 +22,6 @@ public class MedicineController {
 		return "index";
 	}
 	
-
-	
 	@GetMapping("/newMedicine")
 	public String newMedicine(Model model) {
 		model.addAttribute("medicine" , new Medicine());
