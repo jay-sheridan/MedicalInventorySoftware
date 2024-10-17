@@ -40,44 +40,29 @@ public class DatabaseAccess {
 		return (jdbc.query(query, namedParameters, new BeanPropertyRowMapper<Medicine>(Medicine.class)));
 	}
 	
-	public void addCustomer(Customer customer) {
+	public List<Medicine> getMedicineByName(String name){
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-		namedParameters.addValue("phone_number", customer.getPhoneNumber());
-		namedParameters.addValue("name", customer.getName());
-		namedParameters.addValue("address", customer.getAddress());
-		
-		String query = "INSERT INTO customers(phone_number,name,address) VALUES(:phone_number,:name,:address)";
-		jdbc.update(query, namedParameters);
-	}
-	
-	public List<Customer> getAllCustomers(){
-		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-		String query = "SELECT * FROM customers";
-		return (jdbc.query(query, namedParameters, new BeanPropertyRowMapper<Customer>(Customer.class)));
-	}
-	
-	public List<Customer> getCustomerByPhoneNumber(Long phoneNumber){
-		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-		namedParameters.addValue("phone_number", phoneNumber);
-		
-		String query = "SELECT * FROM customers WHERE phone_number = :phone_number";
-		return (jdbc.query(query, namedParameters, new BeanPropertyRowMapper<Customer>(Customer.class)));
+		namedParameters.addValue("name", name);
+		String query = "SELECT * FROM medicines WHERE name = :name";
+		return (jdbc.query(query, namedParameters, new BeanPropertyRowMapper<Medicine>(Medicine.class)));
 	}
 	
 	public void generateInvoice(Invoice invoice) {
+
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-		namedParameters.addValue("invoice_date", invoice.getDate());
-		System.out.println(invoice.getCustomer().getPhoneNumber());
-		namedParameters.addValue("customer_phone_number", invoice.getCustomer().getPhoneNumber());
-		namedParameters.addValue("total_amount", invoice.getTotalAmount());
+		namedParameters.addValue("invoice_created_date", invoice.getInvoiceCreatedDate());
+		namedParameters.addValue("invoice_created_time", invoice.getInvoiceCreatedTime());
+		namedParameters.addValue("customer_phone", invoice.getCustomerPhone());
+		namedParameters.addValue("total_amount", invoice.getTotalMedicineAmount());
 		
-		String query = "INSERT INTO invoices(invoice_date,customer_phone_number,total_amount) VALUES(:invoice_date,:customer_phone_number,:total_amount)";
+		String query = "INSERT INTO invoices(invoice_created_date,invoice_created_time,customer_phone,total_amount) VALUES(:invoice_created_date,:invoice_created_time,:customer_phone,:total_amount);";
 		
 		jdbc.update(query, namedParameters);
+		
 		for(int i=0; i<invoice.getMedicineList().size(); i++) {
 			namedParameters.addValue("medicine_name", invoice.getMedicineList().get(i).getName());
 			namedParameters.addValue("qty",invoice.getMedicineList().get(i).getQty());
-			String query2 = "INSERT INTO invoice_medicines(invoice_date, customer_phone_number, medicine_name, qty) VALUES(:invoice_date, :customer_phone_number, :medicine_name, :qty)";
+			String query2 = "INSERT INTO invoice_medicines(invoice_created_date,invoice_created_time,customer_phone,medicine_name,qty) VALUES (:invoice_created_date,:invoice_created_time,:customer_phone, :medicine_name, :qty)";
 			jdbc.update(query2, namedParameters);
 		}
 	

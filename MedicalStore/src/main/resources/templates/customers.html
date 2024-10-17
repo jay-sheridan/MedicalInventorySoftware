@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Customers</title>
+</head>
+<body>
+<table>
+	<tr>
+		<td>Name</td>
+		<td>Phone No</td>
+	</tr>
+	<div th:each="aCustomer : ${customerList}">
+		<a th:href="@{/getCustomerByPhoneNumber/}+${aCustomer.phoneNumber}">
+		<span th:text="${aCustomer.name}"></span> &nbsp; &nbsp; <span th:text="${aCustomer.phoneNumber}" ></span>
+		</a>
+	</div>
+	<a href=""></a>
+</table>
+</body>
+</html>

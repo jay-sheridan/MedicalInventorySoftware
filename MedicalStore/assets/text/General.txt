@@ -1,0 +1,2 @@
+search for medicine has been written in java script
+sorting medicineLis alphabetically has been written in Java script

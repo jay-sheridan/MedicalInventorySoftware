@@ -1,30 +1,37 @@
 package ca.sheridancollege.pajaynar.beans;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @NoArgsConstructor
 public class Invoice {
 	
-	private LocalDate date = LocalDate.now();
-	private Customer customer;
+	private LocalDate invoiceCreatedDate;
+	private LocalTime invoiceCreatedTime;
+	private Long customerPhone;
 	private List<Medicine> medicineList;
+	private Float totalMedicineAmount = this.getTotalAmount();
 	
-	@Setter
-	private Float totalAmount = this.getTotalAmount(this.medicineList);
 	
-	private Float getTotalAmount(List<Medicine> medicineList) {
+	private Float getTotalAmount() {
+		System.out.println("Inside GetTotalAmount method");
+		System.out.println(medicineList);
 		Float totalAmount = 0f;
-		if(medicineList !=null) {
-		for(int i=0; i< medicineList.size(); i++) {
-			totalAmount = totalAmount + medicineList.get(i).getPrice();
-		}}
-		
+		if(this.medicineList == null||this.medicineList.isEmpty()) {
+			System.out.println("Inside if");
+			return 0.0f;
+		} 
+		else {
+			System.out.println("Inside else");
+			for(int i=0; i< medicineList.size(); i++) {
+				totalAmount = totalAmount + medicineList.get(i).getPrice();
+			}
+		}
 		return totalAmount;
 	}
 }
