@@ -2,36 +2,68 @@ package ca.sheridancollege.pajaynar.beans;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 public class Invoice {
 	
 	private LocalDate invoiceCreatedDate;
 	private LocalTime invoiceCreatedTime;
 	private Long customerPhone;
 	private List<Medicine> medicineList;
-	private Float totalMedicineAmount = this.getTotalAmount();
+	private Float totalInvoiceAmount;
 	
 	
-	private Float getTotalAmount() {
-		System.out.println("Inside GetTotalAmount method");
-		System.out.println(medicineList);
-		Float totalAmount = 0f;
-		if(this.medicineList == null||this.medicineList.isEmpty()) {
-			System.out.println("Inside if");
-			return 0.0f;
-		} 
-		else {
-			System.out.println("Inside else");
-			for(int i=0; i< medicineList.size(); i++) {
-				totalAmount = totalAmount + medicineList.get(i).getPrice();
+	
+	public void setMedicineList(List<Medicine> medicineList) {
+		
+		this.medicineList = processedMedicineList(medicineList);
+		this.getTotal();
+	}
+	
+	 public static List<Medicine> processedMedicineList(List<Medicine> medicineList) {
+	        Map<String, Medicine> medicineMap = new HashMap<>();
+	        
+	        // Iterate through the medicine list and merge quantities
+	        for (Medicine medicine : medicineList) {
+	            String nameAndBatch = medicine.getName()+medicine.getBatchNo();
+
+	            if (medicineMap.containsKey(nameAndBatch)) {
+	                // If the medicine is already in the map, merge the quantities
+	                Medicine existingMedicine = medicineMap.get(nameAndBatch);
+	                existingMedicine.setQty(existingMedicine.getQty() + medicine.getQty());
+	                existingMedicine.setPrice(existingMedicine.getPrice()+medicine.getPrice());
+	            } else {
+	                // If it's not in the map, add it
+	                medicineMap.put(nameAndBatch, createObject(medicine));
+	            }
+	        }
+
+	        // Return a new list of unique medicines with merged quantities
+	        return new ArrayList<>(medicineMap.values());
+	    }
+	
+	private static Medicine createObject(Medicine medicine) {
+		Medicine tempMedicine = new Medicine();
+		tempMedicine.setName(medicine.getName());
+		tempMedicine.setQty(medicine.getQty());
+		tempMedicine.setMfgLicNo(medicine.getMfgLicNo());
+		tempMedicine.setBatchNo(medicine.getBatchNo());
+		tempMedicine.setMfgDate(medicine.getMfgDate());
+		tempMedicine.setExpDate(medicine.getExpDate());
+		tempMedicine.setPrice(medicine.getPrice());
+		return tempMedicine;
+	}
+	 
+	private void getTotal() {
+		this.totalInvoiceAmount = 0f;		
+		for(int i=0; i< medicineList.size(); i++) {
+			this.totalInvoiceAmount += medicineList.get(i).getPrice();
 			}
 		}
-		return totalAmount;
 	}
-}

@@ -2,6 +2,7 @@ package ca.sheridancollege.pajaynar.beans;
 
 import java.time.LocalDate;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,4 +17,5 @@ public class Medicine {
 	private LocalDate mfgDate;
 	private LocalDate expDate;
 	private Float price;
+	private Boolean isActive;
 };

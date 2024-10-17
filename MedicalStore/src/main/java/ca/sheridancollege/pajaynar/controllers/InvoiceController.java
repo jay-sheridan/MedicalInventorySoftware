@@ -58,12 +58,15 @@ public class InvoiceController {
 	public String generateInvoice(Model model,@PathVariable("phoneNumber") Long phoneNumber) {
 		System.out.println("Inside Invoice cotrollr - /generateInvoice");
 		if( !medicineList.isEmpty()) {
+			System.out.print("before getting Invoice object");
 			Invoice invoice= new Invoice();
 			invoice.setCustomerPhone(phoneNumber);
+			System.out.print("before assigning the medicineList");
 			invoice.setMedicineList(medicineList);
 			invoice.setInvoiceCreatedDate(LocalDate.now());
 			invoice.setInvoiceCreatedTime(LocalTime.now());
 			da.generateInvoice(invoice);
+			medicineList.clear();
 			return "finalInvoice";
 		};
 		return "index";

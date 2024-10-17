@@ -53,7 +53,8 @@ public class DatabaseAccess {
 		namedParameters.addValue("invoice_created_date", invoice.getInvoiceCreatedDate());
 		namedParameters.addValue("invoice_created_time", invoice.getInvoiceCreatedTime());
 		namedParameters.addValue("customer_phone", invoice.getCustomerPhone());
-		namedParameters.addValue("total_amount", invoice.getTotalMedicineAmount());
+		System.out.print("before calling the method");
+		namedParameters.addValue("total_amount", invoice.getTotalInvoiceAmount());
 		
 		String query = "INSERT INTO invoices(invoice_created_date,invoice_created_time,customer_phone,total_amount) VALUES(:invoice_created_date,:invoice_created_time,:customer_phone,:total_amount);";
 		
@@ -61,8 +62,9 @@ public class DatabaseAccess {
 		
 		for(int i=0; i<invoice.getMedicineList().size(); i++) {
 			namedParameters.addValue("medicine_name", invoice.getMedicineList().get(i).getName());
+			namedParameters.addValue("batch_no", invoice.getMedicineList().get(i).getBatchNo() );
 			namedParameters.addValue("qty",invoice.getMedicineList().get(i).getQty());
-			String query2 = "INSERT INTO invoice_medicines(invoice_created_date,invoice_created_time,customer_phone,medicine_name,qty) VALUES (:invoice_created_date,:invoice_created_time,:customer_phone, :medicine_name, :qty)";
+			String query2 = "INSERT INTO invoice_medicines(invoice_created_date,invoice_created_time,customer_phone,medicine_name,batch_no,qty) VALUES (:invoice_created_date,:invoice_created_time,:customer_phone, :medicine_name,:batch_no ,:qty)";
 			jdbc.update(query2, namedParameters);
 		}
 	
