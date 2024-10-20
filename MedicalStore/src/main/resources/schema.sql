@@ -13,7 +13,8 @@ CREATE TABLE medicines (
 CREATE TABLE customers(
 	phone_number BIGINT PRIMARY KEY,
 	name VARCHAR(255),
-	address VARCHAR(255)
+	address VARCHAR(255),
+	firstPurchaseDate DATE DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE invoices(

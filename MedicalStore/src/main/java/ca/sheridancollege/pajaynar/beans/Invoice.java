@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 public class Invoice {
@@ -17,6 +18,11 @@ public class Invoice {
 	private Long customerPhone;
 	private List<Medicine> medicineList;
 	private Float totalInvoiceAmount;
+	private LocalDate date = LocalDate.now();
+	private Customer customer;
+	
+	@Setter()
+	private Float totalAmount = this.getTotalAmount(this.medicineList);
 	
 	
 	
@@ -59,11 +65,19 @@ public class Invoice {
 		tempMedicine.setPrice(medicine.getPrice());
 		return tempMedicine;
 	}
-	 
+	
 	private void getTotal() {
 		this.totalInvoiceAmount = 0f;		
 		for(int i=0; i< medicineList.size(); i++) {
 			this.totalInvoiceAmount += medicineList.get(i).getPrice();
 			}
 		}
+
+	/**
+	 * 
+	 * @param medicineList
+	 */
+	private Float getTotalAmount(List<Medicine> medicineList) {
+		return this.totalAmount;
+	}
 	}

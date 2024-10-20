@@ -8,7 +8,7 @@
 
 <body>
 
-	<table th:if="${medicineList != null AND !medicineList.empty}">
+	<table th:if="${medicineCart != null AND !medicineCart.empty}">
 		<tr>
 			<th>Medicine Name</th>
 			<th>Qty</th>
@@ -17,7 +17,7 @@
 			<th>EXP Date</th>
 			<th>Price</th>
 		</tr>
-		<tr th:each="aMedicine:${medicineList}">
+		<tr th:each="aMedicine:${medicineCart}">
 			<td th:text="${aMedicine.name}">Medicine Name</td>
 			<td th:text="${aMedicine.qty}">Qty</td>
 			<td th:text="${aMedicine.batchNo}">Batch No</td>
@@ -26,7 +26,7 @@
 			<td th:text="${aMedicine.price}">Price</td>
 		</tr>
 	</table>
-	<form method="post" action="#" th:action="@{newInvoice/addMedicine}" th:object="${medicine}">
+	<form method="post" action="#" th:action="@{addMedicineToCart}" th:object="${medicine}">
 		<input type="text" id="search" onkeyup="searchForMedicine()" th:field="*{name}" placeholder="Medicine name">
 		<input type="number" id="qty" th:field="*{qty}" placeholder="Enter quantity">
 		<input type="text" id="mfgLicNo" th:field="*{mfgLicNo}" placeholder="Enter manufecturer licence number">
@@ -38,22 +38,18 @@
 	</form>
 	<br><br>
 	<hr>
-	<form method="post" action="#" th:action="@{/insertCustomer}" th:object="${customer}">
-		<input id="name" type="text" th:field="*{name}"  placeholder="Customer name">
-		<input id="phoneNumber" type="number" th:field="*{phoneNumber}" placeholder="Phone number">
-		<input id="address" type="text" th:field="*{address}" placeholder="type address here">
-		<button>Generate Invoice</button>
-	</form>
+	
+	<a th:href="@{/getCustomerFormPage}" class="btn btn-dark">Add Customer</a>
 	
 	<br><hr>
 	
 	<div class=" border rounded p-3">
 	<div id="medicineTable" class="row row-cols-1 row-cols-md-5 g-4">
-	  <div class="medicineRows col" th:each="ms : ${medicineSuggestions}">
+	  <div class="medicineRows col" th:each="ms : ${medicineInventory}">
 	    <div class="card h-100">
 	      <div class="card-body">
-	        <h5 class="card-title medicine-title" th:text="${medicine.name}">Card title</h5>
-	        <p class="card-text">Qty: <span th:text="${medicine.qty}">50</span>&nbsp;&nbsp;&nbsp;Exp: <span th:text="${medicine.expDate}">25-11-2024</span>&nbsp;&nbsp;&nbsp;Price: <span th:text="${medicine.price}">1250</span></p>
+	        <h5 class="card-title medicine-title" th:text="${ms.name}">Card title</h5>
+	        <p class="card-text">Qty: <span th:text="${ms.qty}">50</span>&nbsp;&nbsp;&nbsp;Exp: <span th:text="${ms.batchNo}">25-11-2024</span>&nbsp;&nbsp;&nbsp;Price: <span th:text="${ms.price}">1250</span></p>
 	      </div>
 	      <div class="card-footer">
 	        <small class="text-body-secondary">Last updated 3 mins ago</small>

@@ -1,17 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <title th:text="${title}">Home Page</title>
 </head>
 <body>
- 	<a th:href="@{/medicines}">Medicine</a>
- 	<br>
- 	<a th:href="@{/newMedicine}">New Medicine</a>
- 	<br>
- 	<a th:href="@{/addMedicine}">Add Medicine</a>
- 	<br>
- 	<br><br><br>
- 	<a th:href="@{/newInvoice}">New Invoice</a>
+<div th:replace="layout :: content">
+        <h2>Welcome to the Index Page</h2>
+        <p>This content will replace the default content in layout.html</p>
+    </div>
 </body>
 </html>

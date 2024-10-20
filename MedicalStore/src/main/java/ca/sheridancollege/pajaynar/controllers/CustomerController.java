@@ -44,12 +44,15 @@ public class CustomerController {
 	public String insertCustomer(Model model, @ModelAttribute Customer customer) {
 		System.out.println("Inside Customer cotrollr - /insertCustomer");
 		if( !utils.isOlderCustomer(customer)) {
-			
-			System.out.println("");System.out.println("");System.out.println("");
-			System.out.println("is new customer");
 			cda.insertCustomer(customer);
 		};
 		model.addAttribute("phoneNumber",customer.getPhoneNumber());
 		return "redirect:/generateInvoice/"+customer.getPhoneNumber();
+	};
+	
+	@GetMapping("/getCustomerFormPage")
+	public String getCustomerToInvoice(Model model) {
+		model.addAttribute("customer" , new Customer());
+		return "customerForm";
 	}
 }
