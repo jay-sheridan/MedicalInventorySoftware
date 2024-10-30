@@ -1,0 +1,38 @@
+<html 
+	xmlns:th="http://www.thymeleaf.org" 
+	th:replace="layouts/boilerplate :: layout(~{::main})">
+	>
+<main>
+	<h1>Final Invoice</h1>
+	<br>
+	<div>
+
+		<p>Date: <span th:text="${invoice.invoiceCreatedDate}"></span></p>
+		<p>Time: <span th:text="${invoice.invoiceCreatedTime}"></span></p>
+		
+	</div>
+	<br>
+	<div>
+		<h3>Customer Name : <span th:text="${customer.name}"></span></h3>
+		<p>Customer Phone No : <span th:text="${customer.phoneNumber}"></span></p>
+		<p>Customer Address : <span th:text="${customer.address}"></span></p>
+	</div>
+	<br>
+	<div>
+	    <ul>
+	    	<li th:each="medicine : ${invoice.medicineList}">
+				<span th:text="${medicine.name}"></span>
+				<span th:text="${medicine.qty}"></span>
+				<span th:text="${medicine.batchNo}"></span>
+				<span th:text="${medicine.mfgDate}"></span>
+				<span th:text="${medicine.expDate}"></span>
+				<span th:text="${medicine.price}"></span>
+	    	</li>
+	    </ul>
+    </div>
+    <br>
+    <div>
+    	<h3>Total Amount : <span th:text="${invoice.totalInvoiceAmount}"></span></h3>
+    </div>
+</main>
+</html>

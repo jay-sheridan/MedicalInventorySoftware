@@ -7,36 +7,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 public class Invoice {
-	
-	private LocalDate invoiceCreatedDate;
-	private LocalTime invoiceCreatedTime;
+	private static int invoiceId;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate invoiceCreatedDate = LocalDate.now();
+	private LocalTime invoiceCreatedTime = LocalTime.now();
 	private Long customerPhone;
-	private List<Medicine> medicineList;
-	private Float totalInvoiceAmount;
-	private LocalDate date = LocalDate.now();
+	private List<Medicine> medicineList = new ArrayList<>();
+	private Float totalInvoiceAmount = 0f;
 	private Customer customer;
 	
-	@Setter()
-	private Float totalAmount = this.getTotalAmount(this.medicineList);
 	
-	
-	
-	public void setMedicineList(List<Medicine> medicineList) {
-		
-		this.medicineList = processedMedicineList(medicineList);
-		this.getTotal();
+	public void updateTotalInvoiceAmount(Medicine medicine) {
+		totalInvoiceAmount += medicine.getPrice();
 	}
 	
-	 public static List<Medicine> processedMedicineList(List<Medicine> medicineList) {
+	public List<Medicine> getProcessedMedicineList() {
 	        Map<String, Medicine> medicineMap = new HashMap<>();
 	        
 	        // Iterate through the medicine list and merge quantities
-	        for (Medicine medicine : medicineList) {
+	          for (Medicine medicine : medicineList) {
 	            String nameAndBatch = medicine.getName()+medicine.getBatchNo();
 
 	            if (medicineMap.containsKey(nameAndBatch)) {
@@ -66,18 +61,21 @@ public class Invoice {
 		return tempMedicine;
 	}
 	
-	private void getTotal() {
-		this.totalInvoiceAmount = 0f;		
-		for(int i=0; i< medicineList.size(); i++) {
-			this.totalInvoiceAmount += medicineList.get(i).getPrice();
-			}
-		}
+	public LocalTime getRoundedInvoiceCreatedTime() {
+        if (invoiceCreatedTime != null) {
+            // Calculate the rounded seconds
+            int seconds = invoiceCreatedTime.getSecond();
+            int nanoAdjustment = invoiceCreatedTime.getNano() / 1_000_000_000; // Convert nanoseconds to seconds
+            
+            // Round seconds based on nanoseconds
+            if (nanoAdjustment >= 5) { // If nanoseconds are 5 or more, round up
+                seconds += 1;
+            }
+            // Ensure seconds stay within 0-59 range
+            seconds = seconds % 60;
 
-	/**
-	 * 
-	 * @param medicineList
-	 */
-	private Float getTotalAmount(List<Medicine> medicineList) {
-		return this.totalAmount;
-	}
-	}
+            return invoiceCreatedTime.withSecond(seconds).withNano(0);
+        }
+        return null; // or throw an exception if appropriate
+    }
+}

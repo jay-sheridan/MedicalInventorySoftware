@@ -28,7 +28,13 @@ public class CustomerController {
 		System.out.println(cda.getCustomerList());
 		
 		model.addAttribute("customerList", cda.getCustomerList());
-		return "customers";
+		return "customerView/customers";
+	}
+	
+	@GetMapping("/getCustomerFormPage")
+	public String getCustomerToInvoice(Model model) {
+		model.addAttribute("customer" , new Customer());
+		return "customerView/customerForm";
 	}
 	
 	@GetMapping("/getCustomerByPhoneNumber/{phoneNumber}")
@@ -37,7 +43,7 @@ public class CustomerController {
 		Customer customer = cda.getCustomerByPhoneNumber(phoneNumber).get(0);
 		
 		model.addAttribute("customer", customer);
-		return "aCustomer";
+		return "customerView/aCustomer";
 	}
 	
 	@PostMapping("/insertCustomer")
@@ -50,9 +56,5 @@ public class CustomerController {
 		return "redirect:/generateInvoice/"+customer.getPhoneNumber();
 	};
 	
-	@GetMapping("/getCustomerFormPage")
-	public String getCustomerToInvoice(Model model) {
-		model.addAttribute("customer" , new Customer());
-		return "customerForm";
-	}
+	
 }

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html 
+	xmlns:th="http://www.thymeleaf.org" 
+    th:replace="layouts/boilerplate :: layout(~{::div})"
+	>
 <div>
 	<h3>Name: <span th:text = "${medicine.name}">Aciloc Rd</span></h3>
 	<p>Qty: <span th:text="${medicine.qty}">50</span></p>
@@ -14,5 +12,6 @@
 	<p>expDate: <span th:text="${medicine.expDate}">25-11-2024</span></p>
 	<p>price: <span th:text="${medicine.price}">1250</span></p>
 </div>
+
 </body>
 </html>

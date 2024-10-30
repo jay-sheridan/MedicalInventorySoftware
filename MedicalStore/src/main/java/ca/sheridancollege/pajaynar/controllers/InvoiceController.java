@@ -2,7 +2,7 @@ package ca.sheridancollege.pajaynar.controllers;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,40 +17,76 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ca.sheridancollege.pajaynar.beans.Customer;
 import ca.sheridancollege.pajaynar.beans.Invoice;
 import ca.sheridancollege.pajaynar.beans.Medicine;
+import ca.sheridancollege.pajaynar.database.CustomerDatabaseAccess;
 import ca.sheridancollege.pajaynar.database.InvoicesDatabaseAccess;
+import ca.sheridancollege.pajaynar.database.MedicinesDatabaseAccess;
 
 @Controller
 public class InvoiceController {
 	
 	@Autowired
 	private InvoicesDatabaseAccess ida;
-	/**
-	 * 
-	 * @param model
-	 */
+	
+	@Autowired
+	private MedicinesDatabaseAccess mda;
+	
+	@Autowired
+	private CustomerDatabaseAccess cda;
+	
+	private Invoice invoice;
+	
 	@GetMapping("/newInvoice")
 	public String newInvoice(Model model) {
-		System.out.println(model.getAttribute("medicineInventory"));
+		System.out.println("Inside Invoice cotrollr - /newInvoice");
+		invoice = new Invoice();
+		return renderInvoiceForm(model);
+	}
+	
+
+	private String renderInvoiceForm(Model model) {
+		System.out.println("Inside Invoice cotrollr - renderInvoiceFrom");
+		model.addAttribute("invoice", this.invoice);
 		model.addAttribute("medicine", new Medicine());
-		model.addAttribute("customer", new Customer());
-		return "newInvoice";
+		model.addAttribute("medicineInventory", mda.getMedicineList());
+		return "invoiceView/newInvoice";
+	}
+	
+	@PostMapping("/addMedicineToCart")
+	public String addMedicineToCart (Model model, @ModelAttribute Medicine medicine) {
+		System.out.println("Inside Invoice cotrollr - /addMedicineToCart - POST");
+		invoice.getMedicineList().add(medicine);
+		System.out.println(invoice.getMedicineList().get(0));
+		invoice.updateTotalInvoiceAmount(medicine);
+		mda.updateMedicine(medicine);
+		return renderInvoiceForm(model);
 	}
 	
 	@GetMapping("/generateInvoice/{phoneNumber}")
-	public String generateInvoice(RedirectAttributes redirectAttributes,@PathVariable("phoneNumber") Long phoneNumber) {
-		
-		System.out.println("Inside Invoice cotrollr - /generateInvoice");
-		Invoice invoice= new Invoice();
+	public String generateInvoice(Model model,@PathVariable("phoneNumber") Long phoneNumber) {
 		invoice.setCustomerPhone(phoneNumber);
-		invoice.setInvoiceCreatedDate(LocalDate.now());
-		invoice.setInvoiceCreatedTime(LocalTime.now());
 		ida.generateInvoice(invoice);
-		
-		redirectAttributes.addFlashAttribute("invoiceCreatedDate", invoice.getInvoiceCreatedDate());
-		redirectAttributes.addFlashAttribute("invoiceCreatedTime", invoice.getInvoiceCreatedTime());
-		redirectAttributes.addFlashAttribute("customerPhone", invoice.getCustomerPhone());
-		return "redirect:/storeMedicinesInInvoice";
+		return finalInvoice(model, invoice);
 	}
+	
+	private String finalInvoice(Model model, Invoice invoice) {
+		System.out.println("Inside Invoice cotrollr - /finalInvoice");
+		model.addAttribute("invoice", this.invoice);
+		model.addAttribute("customer", cda.getCustomerByPhoneNumber(invoice.getCustomerPhone()).get(0));
+		System.out.println(model.getAttribute("customer"));
+		return "invoiceView/finalInvoice";
+	}
+//	@GetMapping("/storeMedicinesInInvoice")
+//	public String storeMedicinesInInvoice(Model model) {
+//		System.out.println("store medcines in invoice.");
+//		mda.addMedicinesToInvoice(
+//				medicineCart, 
+//				(LocalDate)model.getAttribute("invoiceCreatedDate"), 
+//				(LocalTime)model.getAttribute("invoiceCreatedTime"), 
+//				(Long)model.getAttribute("customerPhone")
+//			);
+//		medicineCart.clear();
+//		return "redirect:/";
+//	}
 
 	
 };

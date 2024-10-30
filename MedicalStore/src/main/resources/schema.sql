@@ -18,24 +18,23 @@ CREATE TABLE customers(
 );
 
 CREATE TABLE invoices(
+	invoice_id BIGINT NOT NULL AUTO_INCREMENT,
 	invoice_created_date DATE NOT NULL,
 	invoice_created_time TIME NOT NULL, 
 	customer_phone BIGINT NOT NULL,
 	total_amount FLOAT NOT NULL,
 	FOREIGN KEY (customer_phone) REFERENCES customers(phone_number),
-	PRIMARY KEY (invoice_created_date,invoice_created_time,customer_phone)
+	PRIMARY KEY (invoice_id)
 );
 
 CREATE TABLE invoice_medicines(
-	invoice_created_date DATE NOT NULL,
-	invoice_created_time TIME NOT NULL,
-	customer_phone BIGINT NOT NULL,
+	invoice_id BIGINT,
 	medicine_name VARCHAR(255) NOT NULL,
 	batch_no VARCHAR(255) NOT NULL,	
 	qty BIGINT,
-	FOREIGN KEY (invoice_created_date, invoice_created_time, customer_phone) 
-        REFERENCES invoices(invoice_created_date, invoice_created_time, customer_phone),
+	FOREIGN KEY (invoice_id) 
+        REFERENCES invoices(invoice_id),
     FOREIGN KEY (medicine_name, batch_no) 
         REFERENCES medicines(name , batch_no),
-    PRIMARY KEY (invoice_created_date,invoice_created_time,customer_phone,medicine_name,batch_no)
+    PRIMARY KEY (invoice_id,medicine_name,batch_no)
 );

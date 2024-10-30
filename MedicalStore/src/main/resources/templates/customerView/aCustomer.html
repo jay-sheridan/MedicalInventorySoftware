@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="layouts/boilerplate :: layout(~{::div})"
+	>
+<body>
+<div>
+	<div>
+		<h3>Name : <span th:text="${customer.name}"></span></h3>
+		<p>Phone: <span th:text="${customer.phoneNumber}"></span></p>
+		<p>Address: <span th:text=${customer.address}></span> </p>
+	</div>
+	<div>
+		<h3>List of past Invoice</h3>
+	</div>
+</div>
+</body>
+</html>

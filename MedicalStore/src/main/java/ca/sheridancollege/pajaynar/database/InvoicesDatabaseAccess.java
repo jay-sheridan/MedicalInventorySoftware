@@ -20,13 +20,31 @@ public class InvoicesDatabaseAccess {
 
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("invoice_created_date", invoice.getInvoiceCreatedDate());
-		namedParameters.addValue("invoice_created_time", invoice.getInvoiceCreatedTime());
+		namedParameters.addValue("invoice_created_time", invoice.getRoundedInvoiceCreatedTime());
 		namedParameters.addValue("customer_phone", invoice.getCustomerPhone());
-		System.out.print("before calling the method");
 		namedParameters.addValue("total_amount", invoice.getTotalInvoiceAmount());
-		
 		String query = "INSERT INTO invoices(invoice_created_date,invoice_created_time,customer_phone,total_amount) VALUES(:invoice_created_date,:invoice_created_time,:customer_phone,:total_amount);";		
-		jdbc.update(query, namedParameters);	
+		jdbc.update(query, namedParameters);
+		
+		int invoiceId = getInvoiceId(namedParameters);
+		namedParameters.addValue("invoice_id", invoiceId);
+		System.out.println(namedParameters.getValue("invoice_id"));
+		for (int i = 0; i < invoice.getProcessedMedicineList().size(); i++) {
+			namedParameters.addValue("medicine_name",invoice.getProcessedMedicineList().get(i).getName());
+			namedParameters.addValue("batch_no" , invoice.getProcessedMedicineList().get(i).getBatchNo());
+			namedParameters.addValue("qty", invoice.getProcessedMedicineList().get(i).getQty());
+			
+			query = "INSERT INTO invoice_medicines(invoice_id,medicine_name,batch_no,qty) VALUES(:invoice_id,:medicine_name,:batch_no,:qty)";
+			jdbc.update(query, namedParameters);
+		}
+	}
+	
+	private int getInvoiceId(MapSqlParameterSource namedParameters) {
+		System.out.println("Inside getInvoiceId");
+		System.out.println(namedParameters.getValue("invoice_created_time"));
+		String query = "SELECT invoice_id FROM invoices WHERE invoice_created_date = :invoice_created_date AND invoice_created_time = :invoice_created_time AND customer_phone = :customer_phone";
+		
+		return jdbc.queryForObject(query, namedParameters, Integer.class);
 	}
 	
 	public List<Invoice> getInvoiceList(){

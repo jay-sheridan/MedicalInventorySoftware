@@ -25,79 +25,33 @@ public class MedicineController {
 	
 	private List<Medicine> medicineCart = new CopyOnWriteArrayList<Medicine>();	
 	
-	/**
-	 * 
-	 * @param model
-	 */
-	@GetMapping("/")
-	public String index(Model model) {
-		return "index";
-	}
-	
 	@GetMapping("/allMedicines")
 	public String showMedicines(Model model) {
+		
 		System.out.println("Inside medicine cotrollr - /allMedicines");
 		model.addAttribute("medicineList" , mda.getMedicineList());
-		return "allMedicines";
+		return "medicineView/allMedicines";
 	}
 
 	@GetMapping("/aMedicine/{name}")
 	public String showAMedicine(Model model, @PathVariable("name") String name) {
 		System.out.println("Inside Medicine cotrollr - /aMedicine/name");
 		model.addAttribute("medicine" , mda.getMedicineByName(name).get(0));
-		return "aMedicine";
+		return "medicineView/aMedicine";
 	}
 	
-	
-	/**
-	 * 
-	 * @param model
-	 */
 	@GetMapping("/newMedicine")
 	public String newMedicine(Model model) {
 		System.out.println("Inside Medicine cotrollr - /newMedicine");
 		model.addAttribute("medicine" , new Medicine());
-		return "newMedicine";
+		return "medicineView/newMedicine";
 	} 
 	
-	@GetMapping("suggestMedicinesForInvoice")
-	public String addMedicineInventoryToInvoice(Model model) {
-		model.addAttribute("medicine", new Medicine());
-		model.addAttribute("medicineInventory", mda.getMedicineList());
-		model.addAttribute("medicineCart", medicineCart);
-		return "newInvoice";
-	}
-	
-	@PostMapping("/addMedicineToCart")
-	public String addMedicineToCart (RedirectAttributes redirectAttributes, @ModelAttribute Medicine medicine) {
-		medicineCart.add(medicine);
-		mda.updateMedicine(medicine);
-		return ("redirect:/suggestMedicinesForInvoice");
-	}
-	
-	/**
-	 * 
-	 * @param model
-	 * @param medicine
-	 */
 	@PostMapping("/addMedicine")
 	public String addMedicine(Model model, @ModelAttribute Medicine medicine) {
 		System.out.println("Inside Medicine cotrollr - /addMedicine");
 		mda.addMedicineToDatabase(medicine);
 		model.addAttribute("medicine",  new Medicine());
 		return "newMedicine";
-	}
-	
-	@GetMapping("/storeMedicinesInInvoice")
-	public String storeMedicinesInInvoice(Model model) {
-		System.out.println("store medcines in invoice.");
-		mda.addMedicinesToInvoice(
-				medicineCart, 
-				(LocalDate)model.getAttribute("invoiceCreatedDate"), 
-				(LocalTime)model.getAttribute("invoiceCreatedTime"), 
-				(Long)model.getAttribute("customerPhone")
-			);
-		medicineCart.clear();
-		return "redirect:/index";
 	}
 }
