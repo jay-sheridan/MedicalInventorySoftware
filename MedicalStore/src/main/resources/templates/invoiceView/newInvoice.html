@@ -6,40 +6,50 @@
 
 <body>
 	<div>
-		<table th:if="${invoice.medicineList != null AND !invoice.medicineList.empty}">
-			<tr>
-				<th>Medicine Name</th>
-				<th>Qty</th>
-				<th>Batch No</th>
-				<th>MFG Date</th>
-				<th>EXP Date</th>
-				<th>Price</th>
-			</tr>
-			<tr th:each="aMedicine:${invoice.medicineList}">
-				<td th:text="${aMedicine.name}">Medicine Name</td>
-				<td th:text="${aMedicine.qty}">Qty</td>
-				<td th:text="${aMedicine.batchNo}">Batch No</td>
-				<td th:text="${aMedicine.mfgDate}">MFG Date</td>
-				<td th:text="${aMedicine.expDate}">EXP Date</td>
-				<td th:text="${aMedicine.price}">Price</td>
-			</tr>
-		</table>
-		<form method="post" action="#" th:action="@{/addMedicineToCart}" th:object="${medicine}">
-			<input type="text" id="search" onkeyup="searchForMedicine()" th:field="*{name}" placeholder="Medicine name">
-			<input type="number" id="qty" th:field="*{qty}" placeholder="Enter quantity">
-			<input type="text" id="mfgLicNo" th:field="*{mfgLicNo}" placeholder="Enter manufecturer licence number">
-			<input type="text" id="batchNo" th:field="*{batchNo}" placeholder="Batch number">
-			<input type="date" id="mfgDate" th:field="*{mfgDate}" placeholder="Manufecturer date">
-			<input type="date" id="expDate" th:field="*{expDate}" placeholder="Expire date">
-			<input type="number" id="price" th:field="*{price}" placeholder="Enter price">
-			<button>Submit</button>
-		</form>
-		<br><br>
+		<table th:if="${invoice.medicineList != null AND !invoice.medicineList.empty}" style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; margin: 20px 0;">
+
+    <tr style="background-color: #f2f2f2; text-align: left;">
+        <th style="padding: 12px; border: 1px solid #ddd; font-size: 16px;">Medicine Name</th>
+        <th style="padding: 12px; border: 1px solid #ddd; font-size: 16px;">Qty</th>
+        <th style="padding: 12px; border: 1px solid #ddd; font-size: 16px;">Batch No</th>
+        <th style="padding: 12px; border: 1px solid #ddd; font-size: 16px;">MFG Date</th>
+        <th style="padding: 12px; border: 1px solid #ddd; font-size: 16px;">EXP Date</th>
+        <th style="padding: 12px; border: 1px solid #ddd; font-size: 16px;">Price</th>
+    </tr>
+
+    <tr th:each="aMedicine : ${invoice.medicineList}" style="text-align: left;">
+        <td th:text="${aMedicine.name}" style="padding: 10px; border: 1px solid #ddd; font-size: 14px;">Medicine Name</td>
+        <td th:text="${aMedicine.qty}" style="padding: 10px; border: 1px solid #ddd; font-size: 14px;">Qty</td>
+        <td th:text="${aMedicine.batchNo}" style="padding: 10px; border: 1px solid #ddd; font-size: 14px;">Batch No</td>
+        <td th:text="${aMedicine.mfgDate}" style="padding: 10px; border: 1px solid #ddd; font-size: 14px;">MFG Date</td>
+        <td th:text="${aMedicine.expDate}" style="padding: 10px; border: 1px solid #ddd; font-size: 14px;">EXP Date</td>
+        <td th:text="${aMedicine.price}" style="padding: 10px; border: 1px solid #ddd; font-size: 14px;">Price</td>
+    </tr>
+
+</table>
+
+		<form method="post" action="#" th:action="@{/addMedicineToCart/}+${invoice.invoiceId}" th:object="${medicine}" style="display: flex; align-items: center; gap: 10px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; font-family: Arial, sans-serif;">
+    
+    <input type="text" id="search" onkeyup="searchForMedicine()" th:field="*{name}" placeholder="Medicine name" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    
+    <input type="number" id="qty" th:field="*{qty}" placeholder="Quantity" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 100px;">
+    
+    <input type="text" id="mfgLicNo" th:field="*{mfgLicNo}" placeholder="License No" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    
+    <input type="text" id="batchNo" th:field="*{batchNo}" placeholder="Batch No" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    
+    <input type="date" id="mfgDate" th:field="*{mfgDate}" placeholder="Mfg Date" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    
+    <input type="date" id="expDate" th:field="*{expDate}" placeholder="Exp Date" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    
+    <input type="number" id="price" th:field="*{price}" placeholder="Price" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 100px;">
+    
+    <button style="padding: 10px 15px; background-color: #007bff; color: white; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; text-align: center;">Submit</button>
+	<a th:href="@{/getCustomerFormPage}" class="btn btn-dark">Add Customer</a>
+</form>
+
+		
 		<hr>
-		
-		<a th:href="@{/getCustomerFormPage}" class="btn btn-dark">Add Customer</a>
-		
-		<br><hr>
 		
 		<div class=" border rounded p-3">
 		<div id="medicineTable" class="row row-cols-1 row-cols-md-5 g-4">
@@ -49,9 +59,12 @@
 		        <h5 class="card-title medicine-title" th:text="${ms.name}">Card title</h5>
 		        <p class="card-text">Qty: <span th:text="${ms.qty}">50</span>&nbsp;&nbsp;&nbsp;Exp: <span th:text="${ms.batchNo}">25-11-2024</span>&nbsp;&nbsp;&nbsp;Price: <span th:text="${ms.price}">1250</span></p>
 		      </div>
-		      <div class="card-footer">
-		        <small class="text-body-secondary">Last updated 3 mins ago</small>
-		      </div>
+		      <div th:if="${ms.qty>0}" class="card-footer">
+				        <small class="text-body-secondary">In Stock</small>
+				      </div>
+				      <div th:if="${ms.qty==0}" class="card-footer">
+				        <small class="text-body-secondary">Out of Stock</small>
+				      </div>
 		    </div>
 		  </div>
 		</div>

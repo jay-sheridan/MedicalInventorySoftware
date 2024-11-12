@@ -47,6 +47,15 @@ public class InvoicesDatabaseAccess {
 		return jdbc.queryForObject(query, namedParameters, Integer.class);
 	}
 	
+	public List<Invoice> getInvoiceById(Long number) {
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("number", number);
+		String query = "SELECT * FROM invoices WHERE customer_phone = :number";
+		return (jdbc.query(query, namedParameters, new BeanPropertyRowMapper<Invoice>(Invoice.class)));
+	}
+	
+	
+	
 	public List<Invoice> getInvoiceList(){
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		String query = "SELECT * FROM invoices";

@@ -6,12 +6,22 @@
 
 <body>
 	<div>
-	<form method="post" action="#" th:action="@{/insertCustomer}" th:object="${customer}">
-		<input id="custName" type="text" th:field="*{name}" value="Jay"  placeholder="Customer name">
-		<input id="phoneNumber" type="number" th:field="*{phoneNumber}" value=7016640275 placeholder="Phone number">
-		<input id="address" type="text" th:field="*{address}" value="2 Navy Crescent" placeholder="type address here">
-		<button>Generate Invoice</button>
-	</form>
+	<form method="post" action="#" th:action="@{/insertCustomer}" th:object="${customer}" style="width: 300px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; font-family: Arial, sans-serif;">
+    <div style="margin-bottom: 15px;">
+        <label for="custName" style="display: block; margin-bottom: 5px;">Customer Name</label>
+        <input id="custName" type="text" th:field="*{name}" value="Jay" placeholder="Customer name" style="width: 100%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label for="phoneNumber" style="display: block; margin-bottom: 5px;">Phone Number</label>
+        <input id="phoneNumber" type="number" th:field="*{phoneNumber}" value="7016640275" placeholder="Phone number" style="width: 100%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label for="address" style="display: block; margin-bottom: 5px;">Address</label>
+        <input id="address" type="text" th:field="*{address}" value="2 Navy Crescent" placeholder="Type address here" style="width: 100%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+    <button style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Generate Invoice</button>
+</form>
+
 	</div>
 </body>
 </html>

@@ -78,4 +78,11 @@ public class Invoice {
         }
         return null; // or throw an exception if appropriate
     }
+
+	public int getInvoiceId() {
+		return invoiceId;
+	}
+	public void setInvoiceId(int i) {
+	    invoiceId = i;	
+	}
 }

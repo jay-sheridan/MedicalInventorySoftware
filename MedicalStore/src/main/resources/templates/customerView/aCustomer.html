@@ -4,15 +4,16 @@
 	th:replace="layouts/boilerplate :: layout(~{::div})"
 	>
 <body>
-<div>
-	<div>
-		<h3>Name : <span th:text="${customer.name}"></span></h3>
-		<p>Phone: <span th:text="${customer.phoneNumber}"></span></p>
-		<p>Address: <span th:text=${customer.address}></span> </p>
-	</div>
-	<div>
-		<h3>List of past Invoice</h3>
-	</div>
+<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; border-radius: 10px; width: 300px; margin: auto;">
+    <div style="margin-bottom: 20px;">
+        <h3 style="margin: 0; font-size: 18px; color: #333;">Name: <span th:text="${customer.name}" style="font-weight: normal; color: #555;"></span></h3>
+        <p style="font-size: 14px; color: #555; margin: 5px 0;">Phone: <span th:text="${customer.phoneNumber}" style="font-weight: normal;"></span></p>
+        <p style="font-size: 14px; color: #555; margin: 5px 0;">Address: <span th:text="${customer.address}" style="font-weight: normal;"></span></p>
+    </div>
+    <div>
+        <h3 style="font-size: 18px; color: #333;">List of Past Invoices</h3>
+    </div>
 </div>
+
 </body>
 </html>
