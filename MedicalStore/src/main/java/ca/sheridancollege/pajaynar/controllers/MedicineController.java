@@ -51,7 +51,6 @@ public class MedicineController {
 	public String addMedicine(Model model, @ModelAttribute Medicine medicine) {
 		System.out.println("Inside Medicine cotrollr - /addMedicine");
 		mda.addMedicineToDatabase(medicine);
-		model.addAttribute("medicine",  new Medicine());
-		return "newMedicine";
+		return "redirect:/newMedicine";
 	}
 }

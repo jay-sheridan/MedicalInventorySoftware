@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="layouts/boilerplate :: layout(~{::div})"
+	>
+
+<body style="font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f5f5f5;">
+	<div style="background-color: #ffffff; padding: 20px 40px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 300px;">
+		<form method="post" action="#" th:action="@{/addMedicine}" th:object="${medicine}" style="display: flex; flex-direction: column;">
+			<input type="text" th:field="*{name}" placeholder="Medicine name" style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+			<input type="number" th:field="*{qty}" placeholder="Enter quantity" style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+			<input type="text" th:field="*{mfgLicNo}" placeholder="Enter manufacturer license number" style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+			<input type="text" th:field="*{batchNo}" placeholder="Batch number" style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+			<input type="date" th:field="*{mfgDate}" placeholder="Manufacturer date" style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+			<input type="date" th:field="*{expDate}" placeholder="Expire date" style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+			<input type="number" th:field="*{price}" placeholder="Enter price" style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+			<button style="background-color: #007bff; color: white; border: none; padding: 10px; font-size: 16px; border-radius: 4px; cursor: pointer;">Submit</button>
+		</form>
+	</div>
+</body>
+
+</html>

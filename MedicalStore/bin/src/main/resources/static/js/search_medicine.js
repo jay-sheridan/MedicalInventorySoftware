@@ -33,23 +33,3 @@ window.onload = function() {
                 medicineTable.appendChild(row);
             });
         };
-		
-//function populateForm(card) {
-		    // Get data attributes from the clicked div (medicine card)
-		    /*const name = card.getAttribute("data-name");
-		    const qty = card.getAttribute("data-qty");
-		    const mfgLicNo = card.getAttribute("data-mfgLicNo");
-		    const batchNo = card.getAttribute("data-batchNo");
-		    const mfgDate = card.getAttribute("data-mfgDate");
-		    const expDate = card.getAttribute("data-expDate");
-		    const price = card.getAttribute("data-price");
-
-		    // Set values to the form fields
-		    document.getElementById("form-search").value = name;
-		    document.getElementById("form-qty").value = qty;
-		    document.getElementById("form-mfgLicNo").value = mfgLicNo;
-		    document.getElementById("form-batchNo").value = batchNo;
-		    document.getElementById("form-mfgDate").value = mfgDate;
-		    document.getElementById("form-expDate").value = expDate;
-		    document.getElementById("form-price").value = price;
-		  }*/

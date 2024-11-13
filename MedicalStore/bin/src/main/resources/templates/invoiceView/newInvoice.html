@@ -24,27 +24,25 @@
         <td th:text="${aMedicine.mfgDate}" style="padding: 10px; border: 1px solid #ddd; font-size: 14px;">MFG Date</td>
         <td th:text="${aMedicine.expDate}" style="padding: 10px; border: 1px solid #ddd; font-size: 14px;">EXP Date</td>
         <td th:text="${aMedicine.price}" style="padding: 10px; border: 1px solid #ddd; font-size: 14px;">Price</td>
-        <td> <a th:href="@{/editMedicineToCart/} + ${invoice.invoiceId} + @{/} + ${aMedicine.name}" style="text-decoration : none;"><button class="btn btn-dark"> Edit </button></a> </td>
-    	<td> <a th:href="@{/deleteMedicineFromCart/} + ${invoice.invoiceId} + @{/} + ${aMedicine.name}" style="text-decoration : none;"><button class="btn btn-dark"> Delete </button></a> </td>
     </tr>
 
 </table>
 
 		<form method="post" action="#" th:action="@{/addMedicineToCart/}+${invoice.invoiceId}" th:object="${medicine}" style="display: flex; align-items: center; gap: 10px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; font-family: Arial, sans-serif;">
     
-    <input type="text" id="form-search" onkeyup="searchForMedicine()" th:field="*{name}" placeholder="Medicine name" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    <input type="text" id="search" onkeyup="searchForMedicine()" th:field="*{name}" placeholder="Medicine name" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
     
-    <input type="number" id="form-qty" th:field="*{qty}" placeholder="Quantity" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 100px;">
+    <input type="number" id="qty" th:field="*{qty}" placeholder="Quantity" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 100px;">
     
-    <input type="text" id="form-mfgLicNo" th:field="*{mfgLicNo}" placeholder="License No" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    <input type="text" id="mfgLicNo" th:field="*{mfgLicNo}" placeholder="License No" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
     
-    <input type="text" id="form-batchNo" th:field="*{batchNo}" placeholder="Batch No" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    <input type="text" id="batchNo" th:field="*{batchNo}" placeholder="Batch No" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
     
-    <input th:attr="format=*{mfgDate}" type="date" id="form-mfgDate" th:field="*{mfgDate}" placeholder="Mfg Date" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    <input type="date" id="mfgDate" th:field="*{mfgDate}" placeholder="Mfg Date" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
     
-    <input type="date" id="form-expDate" th:field="*{expDate}" placeholder="Exp Date" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    <input type="date" id="expDate" th:field="*{expDate}" placeholder="Exp Date" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
     
-    <input type="number" id="form-price" th:field="*{price}" placeholder="Price" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 100px;">
+    <input type="number" id="price" th:field="*{price}" placeholder="Price" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 100px;">
     
     <button style="padding: 10px 15px; background-color: #007bff; color: white; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; text-align: center;">Submit</button>
 	<a th:href="@{/getCustomerFormPage}" class="btn btn-dark">Add Customer</a>
@@ -56,9 +54,7 @@
 		<div class=" border rounded p-3">
 		<div id="medicineTable" class="row row-cols-1 row-cols-md-5 g-4">
 		  <div class="medicineRows col" th:each="ms : ${medicineInventory}">
-		    <div class="card h-100" onClick="populateForm(this)" 
-		    	th:attr="data-name=${ms.name},data-qty=${ms.qty},data-mfgLicNo=${ms.mfgLicNo},data-batchNo=${ms.batchNo},data-mfgDate=${ms.mfgDate},data-expDate=${ms.expDate},data-price=${ms.price}"
-		    ><a href="#" style="text-decoration:none; color:black;">
+		    <div class="card h-100">
 		      <div class="card-body">
 		        <h5 class="card-title medicine-title" th:text="${ms.name}">Card title</h5>
 		        <p class="card-text">Qty: <span th:text="${ms.qty}">50</span>&nbsp;&nbsp;&nbsp;Exp: <span th:text="${ms.batchNo}">25-11-2024</span>&nbsp;&nbsp;&nbsp;Price: <span th:text="${ms.price}">1250</span></p>
@@ -69,33 +65,11 @@
 				      <div th:if="${ms.qty==0}" class="card-footer">
 				        <small class="text-body-secondary">Out of Stock</small>
 				      </div>
-				      </a>
 		    </div>
 		  </div>
 		</div>
 	</div>
-		<script>  function populateForm(card) {
-		    // Get data attributes from the clicked div (medicine card)
-		    const name = card.getAttribute("data-name");
-		    const qty = card.getAttribute("data-qty");
-		    const mfgLicNo = card.getAttribute("data-mfgLicNo");
-		    const batchNo = card.getAttribute("data-batchNo");
-		    const mfgDate = card.getAttribute("data-mfgDate");
-		    const expDate = card.getAttribute("data-expDate");
-		    const price = card.getAttribute("data-price");
-
-		    // Set values to the form fields
-		    document.getElementById("form-search").value = name;
-		    document.getElementById("form-qty").focus();
-		    document.getElementById("form-qty").value = "";
-		    document.getElementById("form-mfgLicNo").value = mfgLicNo;
-		    document.getElementById("form-batchNo").value = batchNo;
-		    document.getElementById("form-mfgDate").value = mfgDate;
-		    document.getElementById("form-expDate").value = expDate;
-		    document.getElementById("form-price").value = price;
-		  }
-		
-		</script>
+	
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 		<script src="/js/search_medicine.js"></script>
 		<script src="/js/temp.js"></script>

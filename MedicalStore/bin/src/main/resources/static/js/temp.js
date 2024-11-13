@@ -1,7 +1,7 @@
 /**
  * 
  */
-/*
+
 function loadData() {
 	if(document.getElementById('search') != null){document.getElementById('search').value = 'Aspirin';}
 	if(document.getElementById('qty') != null){document.getElementById('qty').value = 50;}
@@ -15,4 +15,4 @@ function loadData() {
 	if(document.getElementById('address') != null){document.getElementById('address').value = "2 Navy Cres";}
 };
 
-loadData();*/
+loadData();

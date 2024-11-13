@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html 
+	xmlns:th="http://www.thymeleaf.org" 
+    th:replace="layouts/boilerplate :: layout(~{::div})"
+	>
+<div style="background-color: #f9f9f9; padding: 20px; border: 1px solid #ddd; border-radius: 8px; width: 300px; font-family: Arial, sans-serif; color: #333;">
+	<h3 style="margin: 0 0 10px 0; font-size: 20px; color: #007bff;">Name: <span th:text="${medicine.name}" style="font-weight: normal;">Aciloc Rd</span></h3>
+	<p style="margin: 5px 0; font-size: 16px;">Qty: <span th:text="${medicine.qty}" style="font-weight: bold;">50</span></p>
+	<p style="margin: 5px 0; font-size: 16px;">MfgLicNo: <span th:text="${medicine.mfgLicNo}" style="font-weight: bold;">50</span></p>
+	<p style="margin: 5px 0; font-size: 16px;">BatchNo: <span th:text="${medicine.batchNo}" style="font-weight: bold;">2145452</span></p>
+	<p style="margin: 5px 0; font-size: 16px;">Mfg Date: <span th:text="${medicine.mfgDate}" style="font-weight: bold;">25-11-2024</span></p>
+	<p style="margin: 5px 0; font-size: 16px;">Exp Date: <span th:text="${medicine.expDate}" style="font-weight: bold;">25-11-2024</span></p>
+	<p style="margin: 5px 0; font-size: 16px;">Price: <span th:text="${medicine.price}" style="font-weight: bold;">1250</span></p>
+</div>
+
+
+</body>
+</html>

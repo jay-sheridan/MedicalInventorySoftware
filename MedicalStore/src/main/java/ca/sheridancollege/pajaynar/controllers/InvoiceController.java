@@ -1,5 +1,6 @@
 package ca.sheridancollege.pajaynar.controllers;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +54,8 @@ public class InvoiceController {
 	
 	@PostMapping("/addMedicineToCart/{invoiceId}")
 	public String addMedicineToCart (Model model, @ModelAttribute Medicine medicine, @PathVariable("invoiceId") int invoiceId) {
-		System.out.println("Inside Invoice cotrollr - /addMedicineToCart - POST");
+		System.out.println(medicine.getMfgDate());
+//		System.out.println("Inside Invoice cotrollr - /addMedicineToCart - POST");
 		onGoingInvoices.get(invoiceId).getMedicineList().add(medicine);
 		onGoingInvoices.get(invoiceId).updateTotalInvoiceAmount(medicine);
 		System.out.println(onGoingInvoices.get(invoiceId).getMedicineList().get(0));
@@ -61,6 +63,30 @@ public class InvoiceController {
 //		return renderInvoiceForm(model);
 		return "redirect:/renderInvoiceForm/" + invoiceId;
 	}
+	
+	@GetMapping("/editMedicineToCart/{invoiceId}/{medicineName}")
+	public String editMedicineToCart(Model model, @PathVariable("invoiceId") int invoiceId, @PathVariable("medicineName") String name)
+	{
+		System.out.println("Inside Invoice cotrollr - /editMedicineToCard - GET");
+		invoice = onGoingInvoices.get(invoiceId);
+		Medicine medicine = invoice.getMedicineList().stream().filter(m -> m.getName().equals(name)).findFirst().get();
+		if(medicine != null) {
+			invoice.getMedicineList().remove(medicine);
+		}
+		System.out.println(medicine.getExpDate());
+		model.addAttribute("invoice", invoice);
+		model.addAttribute("medicine", medicine);
+		model.addAttribute("medicineInventory", mda.getMedicineList());
+		return "invoiceView/newInvoice";
+	}
+	
+	@GetMapping("/deleteMedicineFromCart/{invoiceId}/{medicineName}")
+	public String deleteMedicineFromCart(Model model, @PathVariable("invoiceId") int invoiceId, @PathVariable("medicineName") String name)
+    {
+        System.out.println("Inside Invoice cotrollr - /deleteMedicineFromCart - GET");
+        onGoingInvoices.get(invoiceId).getMedicineList().removeIf(m -> m.getName().equals(name));
+        return "redirect:/renderInvoiceForm/" + invoiceId;
+    }
 	
 	@GetMapping("/generateInvoice/{phoneNumber}")
 	public String generateInvoice(Model model,@PathVariable("phoneNumber") Long phoneNumber) {

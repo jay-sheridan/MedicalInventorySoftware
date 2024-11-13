@@ -1,0 +1,62 @@
+<html 
+	xmlns:th="http://www.thymeleaf.org" 
+	th:replace="layouts/boilerplate :: layout(~{::main})">
+	>
+<main>
+	<h1 style="text-align: center; font-size: 24px; color: #333; margin-bottom: 20px;">Final Invoice</h1>
+<br>
+<div style="font-family: Arial, sans-serif; margin-bottom: 20px;">
+    <p style="font-size: 16px; color: #555;">Date: <span th:text="${invoice.invoiceCreatedDate}" style="font-weight: bold;"></span></p>
+    <p style="font-size: 16px; color: #555;">Time: <span th:text="${invoice.invoiceCreatedTime}" style="font-weight: bold;"></span></p>
+</div>
+<br>
+<div style="font-family: Arial, sans-serif; margin-bottom: 20px;">
+    <h3 style="font-size: 20px; color: #333;">Customer Name: <span th:text="${customer.name}" style="font-weight: bold;"></span></h3>
+    <p style="font-size: 16px; color: #555;">Customer Phone No: <span th:text="${customer.phoneNumber}" style="font-weight: bold;"></span></p>
+    <p style="font-size: 16px; color: #555;">Customer Address: <span th:text="${customer.address}" style="font-weight: bold;"></span></p>
+</div>
+<br>
+<div style="font-family: Arial, sans-serif; margin-bottom: 20px;">
+    <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; margin-top: 20px;">
+    <thead>
+        <tr style="background-color: #f2f2f2; color: #333;">
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Medicine Name</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Quantity</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Batch No</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">MFG Date</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">EXP Date</th>
+            <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="medicine : ${invoice.medicineList}" style="font-size: 16px; color: #555;">
+            <td style="padding: 10px; border: 1px solid #ddd;"> 
+                <span th:text="${medicine.name}"></span>
+            </td>
+            <td style="padding: 10px; border: 1px solid #ddd;"> 
+                <span th:text="${medicine.qty}"></span>
+            </td>
+            <td style="padding: 10px; border: 1px solid #ddd;"> 
+                <span th:text="${medicine.batchNo}"></span>
+            </td>
+            <td style="padding: 10px; border: 1px solid #ddd;"> 
+                <span th:text="${medicine.mfgDate}"></span>
+            </td>
+            <td style="padding: 10px; border: 1px solid #ddd;"> 
+                <span th:text="${medicine.expDate}"></span>
+            </td>
+            <td style="padding: 10px; border: 1px solid #ddd;"> 
+                <span th:text="${medicine.price}"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+<br>
+<div style="font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; color: #333;">
+    <h3>Total Amount: <span th:text="${invoice.totalInvoiceAmount}" style="color: #007bff;"></span></h3>
+</div>
+
+</main>
+</html>
