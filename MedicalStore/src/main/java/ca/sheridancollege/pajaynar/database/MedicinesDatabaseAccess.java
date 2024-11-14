@@ -21,6 +21,7 @@ public class MedicinesDatabaseAccess {
 	NamedParameterJdbcTemplate jdbc;
 	
 	public void addMedicineToDatabase(Medicine medicine) {
+		System.out.println("Inside addMedicine");
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("name", medicine.getName());
 		namedParameters.addValue("qty", medicine.getQty());
@@ -30,9 +31,20 @@ public class MedicinesDatabaseAccess {
 		namedParameters.addValue("exp_date", medicine.getExpDate());
 		namedParameters.addValue("price", medicine.getPrice());
 		
-		String query = "INSERT INTO medicines(name,qty,mfg_lic_no,batch_no,exp_date,mfg_date,price) VALUES (:name,:qty,:mfg_lic_no,:batch_no,:exp_date,:mfg_date,:price)";
 		
+		
+		String query = "INSERT INTO medicines(name,qty,mfg_lic_no,batch_no,exp_date,mfg_date,price) VALUES (:name,:qty,:mfg_lic_no,:batch_no,:exp_date,:mfg_date,:price)";
+		System.out.println("********************************");
 		System.out.println(jdbc.update(query, namedParameters));
+	}
+	
+	public void updateMedicineToDatabase(Medicine medicine) {
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+		namedParameters.addValue("name", medicine.getName());
+		namedParameters.addValue("qty", medicine.getQty());
+		System.out.println(medicine.getQty());
+		String query = "UPDATE medicines SET qty = qty + :qty WHERE name = name";
+		jdbc.update(query, namedParameters);
 	}
 	
 	public List<Medicine> getMedicineList(){
@@ -41,11 +53,12 @@ public class MedicinesDatabaseAccess {
 		return (jdbc.query(query, namedParameters, new BeanPropertyRowMapper<Medicine>(Medicine.class)));
 	}
 	
-	public List<Medicine> getMedicineByName(String name){
+	public Medicine getMedicineByName(String name){
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("name", name);
 		String query = "SELECT * FROM medicines WHERE name = :name";
-		return (jdbc.query(query, namedParameters, new BeanPropertyRowMapper<Medicine>(Medicine.class)));
+		try{return (jdbc.queryForObject(query, namedParameters, new BeanPropertyRowMapper<Medicine>(Medicine.class)));}
+		catch(Exception e) {return null;}
 	}
 	
 	public void updateMedicine(Medicine medicine) {

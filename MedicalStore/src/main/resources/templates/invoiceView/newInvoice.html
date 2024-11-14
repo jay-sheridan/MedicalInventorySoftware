@@ -32,7 +32,7 @@
 
 		<form method="post" action="#" th:action="@{/addMedicineToCart/}+${invoice.invoiceId}" th:object="${medicine}" style="display: flex; align-items: center; gap: 10px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; font-family: Arial, sans-serif;">
     
-    <input type="text" id="form-search" onkeyup="searchForMedicine()" th:field="*{name}" placeholder="Medicine name" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
+    <input type="text" class="search" id="form-search"  onkeyup="searchForMedicine()" th:field="*{name}" placeholder="Medicine name" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 150px;">
     
     <input type="number" id="form-qty" th:field="*{qty}" placeholder="Quantity" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; width: 100px;">
     
@@ -61,7 +61,7 @@
 		    ><a href="#" style="text-decoration:none; color:black;">
 		      <div class="card-body">
 		        <h5 class="card-title medicine-title" th:text="${ms.name}">Card title</h5>
-		        <p class="card-text">Qty: <span th:text="${ms.qty}">50</span>&nbsp;&nbsp;&nbsp;Exp: <span th:text="${ms.batchNo}">25-11-2024</span>&nbsp;&nbsp;&nbsp;Price: <span th:text="${ms.price}">1250</span></p>
+		        <p class="card-text">Qty: <span th:text="${ms.qty}">50</span>&nbsp;&nbsp;&nbsp;Exp: <span th:text="${ms.expDate}">25-11-2024</span>&nbsp;&nbsp;&nbsp;Batch No: <span th:text="${ms.batchNo}">1250</span>&nbsp;&nbsp;&nbsp;Price: <span th:text="${ms.price}">1250</span></p>
 		      </div>
 		      <div th:if="${ms.qty>0}" class="card-footer">
 				        <small class="text-body-secondary">In Stock</small>

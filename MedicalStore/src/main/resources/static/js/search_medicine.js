@@ -1,6 +1,7 @@
 // searching for a particular medicine.
 function searchForMedicine(){
-	let searchValue = document.getElementById("search").value.toLowerCase();
+	console.log(document.getElementsByClassName("search")[0].value);
+	let searchValue = document.getElementsByClassName("search")[0].value.toLowerCase();
 	let table = document.getElementById("medicineTable");
 	let rows = table.getElementsByClassName("medicineRows");
 	for (let i = 0 ; i<rows.length; i++) {
@@ -15,6 +16,27 @@ function searchForMedicine(){
 		}
 	}
 }
+
+function populateForm(card) {
+		    // Get data attributes from the clicked div (medicine card)
+		    const name = card.getAttribute("data-name");
+		    const qty = card.getAttribute("data-qty");
+		    const mfgLicNo = card.getAttribute("data-mfgLicNo");
+		    const batchNo = card.getAttribute("data-batchNo");
+		    const mfgDate = card.getAttribute("data-mfgDate");
+		    const expDate = card.getAttribute("data-expDate");
+		    const price = card.getAttribute("data-price");
+
+		    // Set values to the form fields
+		    document.getElementById("form-search").value = name;
+		    document.getElementById("form-qty").focus();
+		    document.getElementById("form-qty").value = "";
+		    document.getElementById("form-mfgLicNo").value = mfgLicNo;
+		    document.getElementById("form-batchNo").value = batchNo;
+		    document.getElementById("form-mfgDate").value = mfgDate;
+		    document.getElementById("form-expDate").value = expDate;
+		    document.getElementById("form-price").value = price;
+		  }
 
 // sorting medicines alphabetically
 window.onload = function() {

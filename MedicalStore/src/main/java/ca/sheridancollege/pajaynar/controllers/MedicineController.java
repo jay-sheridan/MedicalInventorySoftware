@@ -36,7 +36,7 @@ public class MedicineController {
 	@GetMapping("/aMedicine/{name}")
 	public String showAMedicine(Model model, @PathVariable("name") String name) {
 		System.out.println("Inside Medicine cotrollr - /aMedicine/name");
-		model.addAttribute("medicine" , mda.getMedicineByName(name).get(0));
+		model.addAttribute("medicine" , mda.getMedicineByName(name));
 		return "medicineView/aMedicine";
 	}
 	
@@ -44,13 +44,20 @@ public class MedicineController {
 	public String newMedicine(Model model) {
 		System.out.println("Inside Medicine cotrollr - /newMedicine");
 		model.addAttribute("medicine" , new Medicine());
+		model.addAttribute("medicineInventory", mda.getMedicineList());
 		return "medicineView/newMedicine";
 	} 
 	
 	@PostMapping("/addMedicine")
 	public String addMedicine(Model model, @ModelAttribute Medicine medicine) {
 		System.out.println("Inside Medicine cotrollr - /addMedicine");
+		if(mda.getMedicineByName(medicine.getName())!= null) {
+			System.out.println("Inside If block");
+			mda.updateMedicineToDatabase(medicine);
+		} else {
+			System.out.println("Inside Else block");
 		mda.addMedicineToDatabase(medicine);
+		}
 		return "redirect:/newMedicine";
 	}
 }

@@ -17,8 +17,8 @@
 				   <div class="card h-100">
 				      <div class="card-body">
 				        <h5 class="card-title medicine-title" th:text="${m.name}">Card title</h5>
-				        <p class="card-text">Qty: <span th:text="${m.qty}">50</span>&nbsp;&nbsp;&nbsp;Exp: <span th:text="${m.expDate}">25-11-2024</span>&nbsp;&nbsp;&nbsp;Price: <span th:text="${m.price}">1250</span></p>
-				      </div>
+				        <p class="card-text">Qty: <span th:text="${m.qty}">50</span>&nbsp;&nbsp;&nbsp;Exp: <span th:text="${m.expDate}">25-11-2024</span>&nbsp;&nbsp;&nbsp;Batch No: <span th:text="${m.batchNo}">1250</span>&nbsp;&nbsp;&nbsp;Price: <span th:text="${m.price}">1250</span></p>
+		      		</div>
 				      <div th:if="${m.qty>0}" class="card-footer">
 				        <small class="text-body-secondary">In Stock</small>
 				      </div>
