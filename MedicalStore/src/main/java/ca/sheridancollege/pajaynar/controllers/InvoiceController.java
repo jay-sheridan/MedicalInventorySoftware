@@ -53,7 +53,7 @@ public class InvoiceController {
 	}
 	
 	@PostMapping("/addMedicineToCart/{invoiceId}")
-	public String addMedicineToCart (Model model, @ModelAttribute Medicine medicine, @PathVariable("invoiceId") int invoiceId) {
+	public String addMedicineToCart (@ModelAttribute Medicine medicine, @PathVariable("invoiceId") int invoiceId) {
 		System.out.println(medicine.getMfgDate());
 //		System.out.println("Inside Invoice cotrollr - /addMedicineToCart - POST");
 		onGoingInvoices.get(invoiceId).getMedicineList().add(medicine);
@@ -103,10 +103,11 @@ public class InvoiceController {
         return "invoiceView/invoices";
 	}
 	
-	@GetMapping("/invoice/{number}")
+	@GetMapping("/viewInvoice/{number}")
 	public String getInvoiceById(Model model, @PathVariable("number") Long number) {
         System.out.println("Inside Invoice cotrollr - /invoice/{number}");
         model.addAttribute("invoice", ida.getInvoiceById(number).get(0));
+        System.out.println(model.getAttribute("invoice"));
         return "invoiceView/invoice";
 	}
 	

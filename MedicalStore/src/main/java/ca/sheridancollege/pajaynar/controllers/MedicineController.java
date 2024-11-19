@@ -37,19 +37,31 @@ public class MedicineController {
 	public String showAMedicine(Model model, @PathVariable("name") String name) {
 		System.out.println("Inside Medicine cotrollr - /aMedicine/name");
 		model.addAttribute("medicine" , mda.getMedicineByName(name));
+		System.out.println(mda.getMedicineByName(name));
 		return "medicineView/aMedicine";
 	}
 	
 	@GetMapping("/newMedicine")
 	public String newMedicine(Model model) {
 		System.out.println("Inside Medicine cotrollr - /newMedicine");
+		System.out.println("Flash attributes: " + model.getAttribute("message"));
 		model.addAttribute("medicine" , new Medicine());
 		model.addAttribute("medicineInventory", mda.getMedicineList());
 		return "medicineView/newMedicine";
 	} 
 	
+	@PostMapping("/editMedicine")
+	public String editMedicine(RedirectAttributes redirectAttributes, @ModelAttribute Medicine medicine) {
+        System.out.println("Inside Medicine cotrollr - /editMedicine");
+        mda.deleteMedicineByName(medicine.getName());
+        mda.addMedicineToDatabase(medicine);
+        redirectAttributes.addFlashAttribute("message", "Medicine updated successfully");
+        return "redirect:/allMedicines";
+        
+	}
+	
 	@PostMapping("/addMedicine")
-	public String addMedicine(Model model, @ModelAttribute Medicine medicine) {
+	public String addMedicine(RedirectAttributes redirectAttributes, @ModelAttribute Medicine medicine) {
 		System.out.println("Inside Medicine cotrollr - /addMedicine");
 		if(mda.getMedicineByName(medicine.getName())!= null) {
 			System.out.println("Inside If block");
@@ -58,6 +70,7 @@ public class MedicineController {
 			System.out.println("Inside Else block");
 		mda.addMedicineToDatabase(medicine);
 		}
+		redirectAttributes.addFlashAttribute("message", "Medicine added successfully");
 		return "redirect:/newMedicine";
 	}
 }

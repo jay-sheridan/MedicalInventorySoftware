@@ -1,33 +1,42 @@
 <!DOCTYPE html>
-<html 
-	xmlns:th="http://www.thymeleaf.org" 
+<html xmlns:th="http://www.thymeleaf.org"
 	th:replace="layouts/boilerplate :: layout(~{::main})">
-	>
+>
 <main>
-        
-	<div>
-		<input id="search" onkeyup="searchForMedicine()" class="form-control me-2" type="search" placeholder="Search medicine here" aria-label="Search">
+
+	<div class="mt-2">
+		<input id="search" onkeyup="searchForMedicine()"
+			class="form-control me-2" type="search"
+			placeholder="Search medicine here" aria-label="Search">
 	</div>
 	<br>
-		
+
 	<div class=" border rounded p-3">
 		<div id="medicineTable" class="row row-cols-1 row-cols-md-5 g-4">
 			<div th:each="m : ${medicineList}">
-			  <a style="text-decoration : none;"  class="medicineRows col" th:href="@{/aMedicine/}+${m.name}">
-				   <div class="card h-100">
-				      <div class="card-body">
-				        <h5 class="card-title medicine-title" th:text="${m.name}">Card title</h5>
-				        <p class="card-text">Qty: <span th:text="${m.qty}">50</span>&nbsp;&nbsp;&nbsp;Exp: <span th:text="${m.expDate}">25-11-2024</span>&nbsp;&nbsp;&nbsp;Batch No: <span th:text="${m.batchNo}">1250</span>&nbsp;&nbsp;&nbsp;Price: <span th:text="${m.price}">1250</span></p>
-		      		</div>
-				      <div th:if="${m.qty>0}" class="card-footer">
-				        <small class="text-body-secondary">In Stock</small>
-				      </div>
-				      <div th:if="${m.qty==0}" class="card-footer">
-				        <small class="text-body-secondary">Out of Stock</small>
-				      </div>
-				    </div>
-			  </a>
-		  </div>
+				<a style="text-decoration: none;" class="medicineRows col"
+					th:href="@{/aMedicine/}+${m.name}">
+					<div class="card h-100">
+						<div class="card-body">
+							<h5 class="card-title medicine-title" th:text="${m.name}">Card
+								title</h5>
+							<p class="card-text">
+								Qty: <span th:text="${m.qty}">50</span>&nbsp;&nbsp;&nbsp;<br>Exp: <span
+									th:text="${m.expDate}">25-11-2024</span>&nbsp;&nbsp;&nbsp;<br>Mfg: <span
+									th:text="${m.mfgDate}">25-11-2024</span>&nbsp;&nbsp;&nbsp;<br>Batch
+								No: <span th:text="${m.batchNo}">1250</span>&nbsp;&nbsp;&nbsp;<br>Price:
+								<span th:text="${m.price}">1250</span>
+							</p>
+						</div>
+						<div th:if="${m.qty>0}" class="card-footer">
+							<small class="text-body-secondary">In Stock</small>
+						</div>
+						<div th:if="${m.qty==0}" class="card-footer">
+							<small class="text-body-secondary">Out of Stock</small>
+						</div>
+					</div>
+				</a>
+			</div>
 		</div>
 	</div>
 	<script src="/js/search_medicine.js"></script>

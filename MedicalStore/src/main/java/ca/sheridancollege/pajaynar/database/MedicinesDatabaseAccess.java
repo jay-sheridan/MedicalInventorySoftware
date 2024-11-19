@@ -31,8 +31,6 @@ public class MedicinesDatabaseAccess {
 		namedParameters.addValue("exp_date", medicine.getExpDate());
 		namedParameters.addValue("price", medicine.getPrice());
 		
-		
-		
 		String query = "INSERT INTO medicines(name,qty,mfg_lic_no,batch_no,exp_date,mfg_date,price) VALUES (:name,:qty,:mfg_lic_no,:batch_no,:exp_date,:mfg_date,:price)";
 		System.out.println("********************************");
 		System.out.println(jdbc.update(query, namedParameters));
@@ -41,9 +39,10 @@ public class MedicinesDatabaseAccess {
 	public void updateMedicineToDatabase(Medicine medicine) {
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("name", medicine.getName());
+		namedParameters.addValue("batch_no", medicine.getBatchNo());
 		namedParameters.addValue("qty", medicine.getQty());
 		System.out.println(medicine.getQty());
-		String query = "UPDATE medicines SET qty = qty + :qty WHERE name = name";
+		String query = "UPDATE medicines SET qty = qty + :qty WHERE name = :name AND batch_no = :batch_no";
 		jdbc.update(query, namedParameters);
 	}
 	
@@ -61,9 +60,17 @@ public class MedicinesDatabaseAccess {
 		catch(Exception e) {return null;}
 	}
 	
+	public void deleteMedicineByName(String name) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("name", name);
+        String query = "DELETE FROM medicines WHERE name = :name";
+        jdbc.update(query, namedParameters);
+    };
+	
 	public void updateMedicine(Medicine medicine) {
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 		namedParameters.addValue("medicine_name", medicine.getName());
+		namedParameters.addValue("batch_no", medicine.getBatchNo());
 		namedParameters.addValue("remainingQty", this.getRemainingQty(medicine));
 		
 		String query = "UPDATE medicines SET qty = :remainingQty WHERE name = :medicine_name";
@@ -76,29 +83,5 @@ public class MedicinesDatabaseAccess {
 		String query = "SELECT qty FROM medicines WHERE name = :medicine_name";
 		return (jdbc.queryForObject(query, namedParameters, Integer.class) - medicine.getQty());
 	}
-	
-	public void addMedicinesToInvoice(List<Medicine> medicineCart , LocalDate invoiceCreatedDate ,LocalTime invoiceCreatedTime, Long customerPhone) {
-		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-		namedParameters.addValue("invoice_created_date", invoiceCreatedDate);
-		namedParameters.addValue("invoice_created_time", invoiceCreatedTime);
-		namedParameters.addValue("customerPhone", customerPhone);
-		for(int i=0; i<medicineCart.size(); i++) {
-			namedParameters.addValue("medicine_name", medicineCart.get(i).getName());
-			namedParameters.addValue("batch_no", medicineCart.get(i).getBatchNo() );
-			namedParameters.addValue("qty",medicineCart.get(i).getQty());
-			
-			String invoiceMedicinesQuery = "INSERT INTO invoice_medicines(invoice_created_date,invoice_created_time,customer_phone,medicine_name,batch_no,qty) VALUES (:invoice_created_date,:invoice_created_time,:customer_phone, :medicine_name,:batch_no ,:qty)";
-			jdbc.update(invoiceMedicinesQuery, namedParameters);
-		}
-	}
-	
-	public List<Medicine> retrieveMedicineList(Date invoiceCreatedDate, Time invoiceCreatedTime, Long customerPhone){
-		MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-		namedParameters.addValue("invoice_created_date", invoiceCreatedDate);
-		namedParameters.addValue("invoice_created_time", invoiceCreatedTime);
-		namedParameters.addValue("customer_phone", customerPhone);
-		
-		String query = "SELECT medicine_name , qty , batch_no from invoice_medicines where invoice_created_date = :invoice_created_date and invoice_created_time = :invoice_created_time and customer_phone = :customer_phone";
-		return (jdbc.query(query, namedParameters , new BeanPropertyRowMapper<Medicine>(Medicine.class)));
-	}
+
 }

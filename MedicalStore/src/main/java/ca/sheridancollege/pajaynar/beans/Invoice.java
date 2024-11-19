@@ -19,12 +19,12 @@ public class Invoice {
 	private LocalTime invoiceCreatedTime = LocalTime.now();
 	private Long customerPhone;
 	private List<Medicine> medicineList = new ArrayList<>();
-	private Float totalInvoiceAmount = 0f;
+	private Float totalAmount = 0f;
 	private Customer customer;
 	
 	
 	public void updateTotalInvoiceAmount(Medicine medicine) {
-		totalInvoiceAmount += medicine.getPrice();
+		totalAmount += medicine.getPrice();
 	}
 	
 	public List<Medicine> getProcessedMedicineList() {

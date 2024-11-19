@@ -22,7 +22,7 @@ public class InvoicesDatabaseAccess {
 		namedParameters.addValue("invoice_created_date", invoice.getInvoiceCreatedDate());
 		namedParameters.addValue("invoice_created_time", invoice.getRoundedInvoiceCreatedTime());
 		namedParameters.addValue("customer_phone", invoice.getCustomerPhone());
-		namedParameters.addValue("total_amount", invoice.getTotalInvoiceAmount());
+		namedParameters.addValue("total_amount", invoice.getTotalAmount());
 		String query = "INSERT INTO invoices(invoice_created_date,invoice_created_time,customer_phone,total_amount) VALUES(:invoice_created_date,:invoice_created_time,:customer_phone,:total_amount);";		
 		jdbc.update(query, namedParameters);
 		
