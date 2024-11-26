@@ -122,6 +122,23 @@
 			</div>
 		</div>
 		<script>
+    document.getElementById("form").addEventListener("submit", function (event) {
+        // Get all input fields within the form
+        const inputs = document.querySelectorAll("#form input");
+
+        // Loop through each input field
+        for (let input of inputs) {
+            // Check if the input is empty
+            if (!input.value.trim()) {
+                alert("Please fill out all fields before submitting.");
+                event.preventDefault(); // Stop form submission
+                return; // Exit the function
+            }
+        }
+    });
+</script>
+		
+		<script>
 			// JavaScript logic to calculate price based on quantity
 			document
 					.addEventListener(

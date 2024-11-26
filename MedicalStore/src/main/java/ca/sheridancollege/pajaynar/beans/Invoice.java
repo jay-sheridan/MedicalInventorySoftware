@@ -13,15 +13,13 @@ import lombok.Data;
 
 @Data
 public class Invoice {
-	private static int invoiceId;
+	private int invoiceId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate invoiceCreatedDate = LocalDate.now();
 	private LocalTime invoiceCreatedTime = LocalTime.now();
 	private Long customerPhone;
 	private List<Medicine> medicineList = new ArrayList<>();
 	private Float totalAmount = 0f;
-	private Customer customer;
-	
 	
 	public void updateTotalInvoiceAmount(Medicine medicine) {
 		totalAmount += medicine.getPrice();
@@ -78,11 +76,4 @@ public class Invoice {
         }
         return null; // or throw an exception if appropriate
     }
-
-	public int getInvoiceId() {
-		return invoiceId;
-	}
-	public void setInvoiceId(int i) {
-	    invoiceId = i;	
-	}
 }

@@ -19,58 +19,90 @@ import ca.sheridancollege.pajaynar.database.MedicinesDatabaseAccess;
 
 @Controller
 public class MedicineController {
-	
-	@Autowired
-	private MedicinesDatabaseAccess mda;
-	
-	private List<Medicine> medicineCart = new CopyOnWriteArrayList<Medicine>();	
-	
-	@GetMapping("/allMedicines")
-	public String showMedicines(Model model) {
-		
-		System.out.println("Inside medicine cotrollr - /allMedicines");
-		model.addAttribute("medicineList" , mda.getMedicineList());
-		return "medicineView/allMedicines";
-	}
 
-	@GetMapping("/aMedicine/{name}")
-	public String showAMedicine(Model model, @PathVariable("name") String name) {
-		System.out.println("Inside Medicine cotrollr - /aMedicine/name");
-		model.addAttribute("medicine" , mda.getMedicineByName(name));
-		System.out.println(mda.getMedicineByName(name));
-		return "medicineView/aMedicine";
-	}
-	
-	@GetMapping("/newMedicine")
-	public String newMedicine(Model model) {
-		System.out.println("Inside Medicine cotrollr - /newMedicine");
-		System.out.println("Flash attributes: " + model.getAttribute("message"));
-		model.addAttribute("medicine" , new Medicine());
-		model.addAttribute("medicineInventory", mda.getMedicineList());
-		return "medicineView/newMedicine";
-	} 
-	
-	@PostMapping("/editMedicine")
-	public String editMedicine(RedirectAttributes redirectAttributes, @ModelAttribute Medicine medicine) {
-        System.out.println("Inside Medicine cotrollr - /editMedicine");
-        mda.deleteMedicineByName(medicine.getName());
-        mda.addMedicineToDatabase(medicine);
-        redirectAttributes.addFlashAttribute("message", "Medicine updated successfully");
-        return "redirect:/allMedicines";
-        
-	}
-	
-	@PostMapping("/addMedicine")
-	public String addMedicine(RedirectAttributes redirectAttributes, @ModelAttribute Medicine medicine) {
-		System.out.println("Inside Medicine cotrollr - /addMedicine");
-		if(mda.getMedicineByName(medicine.getName())!= null) {
-			System.out.println("Inside If block");
-			mda.updateMedicineToDatabase(medicine);
-		} else {
-			System.out.println("Inside Else block");
-		mda.addMedicineToDatabase(medicine);
-		}
-		redirectAttributes.addFlashAttribute("message", "Medicine added successfully");
-		return "redirect:/newMedicine";
-	}
+    @Autowired
+    private MedicinesDatabaseAccess mda; // Access for medicine-related database operations
+
+    // Thread-safe list to store medicines temporarily
+    private List<Medicine> medicineCart = new CopyOnWriteArrayList<>();
+
+    /**
+     * Displays all medicines available in the inventory.
+     *
+     * @param model The model object used to pass data to the view.
+     * @return The name of the view displaying all medicines.
+     */
+    @GetMapping("/allMedicines")
+    public String showMedicines(Model model) {
+        System.out.println("Inside Medicine controller - /allMedicines");
+        model.addAttribute("medicineList", mda.getMedicineList()); // Add all medicines to the model
+        return "medicineView/allMedicines"; // Render the view for displaying all medicines
+    }
+
+    /**
+     * Displays details of a specific medicine by its name.
+     *
+     * @param model The model object used to pass data to the view.
+     * @param name  The name of the medicine to display.
+     * @return The name of the view displaying the medicine details.
+     */
+    @GetMapping("/aMedicine/{name}")
+    public String showAMedicine(Model model, @PathVariable("name") String name) {
+        System.out.println("Inside Medicine controller - /aMedicine/name");
+        model.addAttribute("medicine", mda.getMedicineByName(name)); // Add the selected medicine to the model
+        System.out.println(mda.getMedicineByName(name)); // Log the medicine details
+        return "medicineView/aMedicine"; // Render the view for displaying the medicine
+    }
+
+    /**
+     * Displays the form for adding a new medicine to the inventory.
+     *
+     * @param model The model object used to pass data to the view.
+     * @return The name of the view for adding a new medicine.
+     */
+    @GetMapping("/newMedicine")
+    public String newMedicine(Model model) {
+        System.out.println("Inside Medicine controller - /newMedicine");
+        System.out.println("Flash attributes: " + model.getAttribute("message"));
+        model.addAttribute("medicine", new Medicine()); // Add an empty Medicine object for form binding
+        model.addAttribute("medicineInventory", mda.getMedicineList()); // Add existing inventory to the model
+        return "medicineView/newMedicine"; // Render the view for adding a new medicine
+    }
+
+    /**
+     * Updates an existing medicine's details in the inventory.
+     *
+     * @param redirectAttributes The object used to pass flash attributes to the redirected view.
+     * @param medicine           The medicine details received from the form.
+     * @return Redirect URL to display all medicines after updating.
+     */
+    @PostMapping("/editMedicine")
+    public String editMedicine(RedirectAttributes redirectAttributes, @ModelAttribute Medicine medicine) {
+        System.out.println("Inside Medicine controller - /editMedicine");
+        mda.deleteMedicineByName(medicine.getName()); // Remove the existing medicine record
+        mda.addMedicineToDatabase(medicine); // Add the updated medicine record
+        redirectAttributes.addFlashAttribute("message", "Medicine updated successfully"); // Flash message
+        return "redirect:/allMedicines"; // Redirect to the list of all medicines
+    }
+
+    /**
+     * Adds a new medicine or updates an existing one in the inventory.
+     *
+     * @param redirectAttributes The object used to pass flash attributes to the redirected view.
+     * @param medicine           The medicine details received from the form.
+     * @return Redirect URL to display the form for adding medicines after insertion/update.
+     */
+    @PostMapping("/addMedicine")
+    public String addMedicine(RedirectAttributes redirectAttributes, @ModelAttribute Medicine medicine) {
+        System.out.println("Inside Medicine controller - /addMedicine");
+        if (mda.getMedicineByName(medicine.getName()) != null) {
+            System.out.println("Inside If block");
+            mda.updateMedicineToDatabase(medicine); // Update the existing medicine record
+        } else {
+            System.out.println("Inside Else block");
+            mda.addMedicineToDatabase(medicine); // Add the new medicine record
+        }
+        redirectAttributes.addFlashAttribute("message", "Medicine added successfully"); // Flash message
+        return "redirect:/newMedicine"; // Redirect to the new medicine form
+    }
 }

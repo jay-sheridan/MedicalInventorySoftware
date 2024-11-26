@@ -29,12 +29,13 @@ CREATE TABLE invoices(
 
 CREATE TABLE invoice_medicines(
 	invoice_id BIGINT,
-	medicine_name VARCHAR(255) NOT NULL,
+	name VARCHAR(255) NOT NULL,
 	batch_no VARCHAR(255) NOT NULL,	
 	qty BIGINT,
+	price BIGINT,
 	FOREIGN KEY (invoice_id) 
         REFERENCES invoices(invoice_id),
-    FOREIGN KEY (medicine_name, batch_no) 
+    FOREIGN KEY (name, batch_no) 
         REFERENCES medicines(name , batch_no),
-    PRIMARY KEY (invoice_id,medicine_name,batch_no)
+    PRIMARY KEY (invoice_id,name,batch_no)
 );

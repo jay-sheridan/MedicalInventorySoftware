@@ -14,8 +14,11 @@
         </tr>
     </thead>
     <tbody>
-        <tr style="background-color: #f9f9f9;" th:each="invoice : ${invoices}">
+        <tr style="background-color: #f9f9f9;" 
+        
+        th:each="invoice : ${invoices}">
             <td style="padding: 10px; border: 1px solid #ddd;" th:text="${invoice.invoiceCreatedDate}">2024-11-25</td>
+            <td style="padding: 10px; border: 1px solid #ddd;" th:text="${invoice.invoiceCreatedTime}">10:00PM</td>
             <td style="padding: 10px; border: 1px solid #ddd;" th:text="${invoice.customerPhone}">John Doe</td>
             <td style="padding: 10px; border: 1px solid #ddd; text-align: right;" th:text="${invoice.totalAmount}">$500.00</td>
             <td><a th:href="@{/viewInvoice/}+${invoice.invoiceId}"><button class="btn btn-success">View</button></a></td>
